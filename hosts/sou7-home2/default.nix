@@ -80,18 +80,17 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    git
     traceroute
     dig
-    xfce.xfce4-terminal
-    openrgb
   ];
 
   services.xserver = {
     enable = true;
-    layout = "us";
-    xkbVariant = "";
-    xkbOptions = "";
+    xkb = {
+      layout = "us";
+      variant = "";
+      options = "";
+    };
     desktopManager = {
       xterm.enable = true;
     };
@@ -129,17 +128,19 @@
 
   services.tailscale.enable = true;
 
-  services.hardware.openrgb = { 
-    enable = true; 
-    package = pkgs.openrgb-with-all-plugins; 
-    motherboard = "amd"; 
-    server = { 
-      port = 6742; 
-    }; 
+  services.hardware.openrgb = {
+    enable = true;
+    package = pkgs.openrgb-with-all-plugins;
+    motherboard = "amd";
+    server = {
+      port = 6742;
+    };
   };
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [
+    2049 # NFS
+  ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -150,6 +151,19 @@
       "0 6 * * * sou7 openrgb -m rainbow"
       "0 21 * * * sou7 openrgb -m off"
     ];
+  };
+
+  fileSystems."/home/sou7" = {
+    device = "/home/sou7";
+    options = [ "bind" ];
+  };
+
+  services.nfs.server = {
+    enable = true;
+    exports = ''
+      /home/sou7 192.168.1.0/24(rw,sync,no_root_squash,no_subtree_check)
+      /home/sou7 100.64.0.0/10(rw,sync,no_root_squash,no_subtree_check)
+    '';
   };
 
   # This value determines the NixOS release from which the default
