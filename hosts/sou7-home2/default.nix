@@ -49,7 +49,8 @@
   };
 
   i18n.inputMethod = {
-    enabled = "fcitx5";
+    enable = true;
+    type = "fcitx5";
     fcitx5.addons = with pkgs; [fcitx5-mozc fcitx5-gtk libsForQt5.fcitx5-qt];
   };
 
@@ -68,7 +69,7 @@
   users.users.sou7 = {
     isNormalUser = true;
     description = "sou7";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [];
   };
 
@@ -94,9 +95,6 @@
     desktopManager = {
       xterm.enable = true;
     };
-    displayManager = {
-      defaultSession = "none+i3";
-    };
     windowManager.i3 = {
       enable = true;
       extraPackages = with pkgs; [
@@ -106,6 +104,7 @@
       ];
     };
   };
+  services.displayManager.defaultSession = "none+i3";
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -140,6 +139,7 @@
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
     2049 # NFS
+    13353 # simutrans
   ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
@@ -161,9 +161,14 @@
   services.nfs.server = {
     enable = true;
     exports = ''
-      /home/sou7 192.168.1.0/24(rw,sync,no_root_squash,no_subtree_check)
+      /home/sou7 192.168.0.0/24(rw,sync,no_root_squash,no_subtree_check)
       /home/sou7 100.64.0.0/10(rw,sync,no_root_squash,no_subtree_check)
     '';
+  };
+
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
   };
 
   # This value determines the NixOS release from which the default

@@ -14,6 +14,7 @@
     ...
   }: {
     nixosConfigurations = {
+
       sou7-home2 = let
         username = "sou7";
         specialArgs = { inherit username; };
@@ -33,6 +34,29 @@
 
               home-manager.extraSpecialArgs = inputs // specialArgs;
               home-manager.users.${username} = import ./users/${username}/home.nix;
+            }
+          ];
+        };
+
+      kashu-cloud-reverse-proxy = let
+        username = "sou7";
+        specialArgs = { inherit username; };
+      in
+        nixpkgs.lib.nixosSystem {
+          inherit specialArgs;
+          system = "x86_64-linux";
+
+          modules = [
+            ./hosts/kashu-cloud-reverse-proxy
+            ./users/${username}-minimal/nixos.nix
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+
+              home-manager.extraSpecialArgs = inputs // specialArgs;
+              home-manager.users.${username} = import ./users/${username}-minimal/home.nix;
             }
           ];
         };
