@@ -67,7 +67,7 @@
   users.users.sou7 = {
     isNormalUser = true;
     description = "sou7";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID4vsYQPoOMaSx9Xr7mzVFB79U2CHd/agnTRtJRS54+J sou7@sou7"
     ];
@@ -103,8 +103,15 @@
     };
   };
 
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
+
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [
+    13353 # simutrans
+  ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

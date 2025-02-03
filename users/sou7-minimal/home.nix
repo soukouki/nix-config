@@ -9,6 +9,7 @@
       vim
       git
       bottom
+      docker-compose
     ];
   };
 
