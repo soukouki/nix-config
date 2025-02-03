@@ -38,7 +38,7 @@
           ];
         };
 
-      kashu-cloud-reverse-proxy = let
+      sou7-proxy = let
         username = "sou7";
         specialArgs = { inherit username; };
       in
@@ -47,7 +47,7 @@
           system = "x86_64-linux";
 
           modules = [
-            ./hosts/kashu-cloud-reverse-proxy
+            ./hosts/sou7-proxy
             ./users/${username}-minimal/nixos.nix
 
             home-manager.nixosModules.home-manager
