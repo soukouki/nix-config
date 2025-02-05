@@ -11,6 +11,8 @@
       git
       bottom
       docker-compose
+      fastfetch
+      screen
     ];
   };
 

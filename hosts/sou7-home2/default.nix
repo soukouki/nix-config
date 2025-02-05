@@ -148,7 +148,7 @@
   services.cron = {
     enable = true;
     systemCronJobs = [
-      "0 6 * * * sou7 openrgb -m rainbow"
+      "0 7 * * * sou7 openrgb -m rainbow"
       "0 21 * * * sou7 openrgb -m off"
     ];
   };
@@ -164,6 +164,12 @@
       /home/sou7 192.168.0.0/24(rw,sync,no_root_squash,no_subtree_check)
       /home/sou7 100.64.0.0/10(rw,sync,no_root_squash,no_subtree_check)
     '';
+  };
+
+  fileSystems."/home/sou7/proxy" = {
+    device = "100.64.168.58:/home/sou7";
+    fsType = "nfs";
+    options = [ "x-systemd.automount" "noauto" ];
   };
 
   virtualisation.docker.rootless = {

@@ -105,6 +105,18 @@
     };
   };
 
+  fileSystems."/home/sou7" = {
+    device = "/home/sou7";
+    options = [ "bind" ];
+  };
+
+  services.nfs.server = {
+    enable = true;
+    exports = ''
+      /home/sou7 100.64.0.0/10(rw,sync,no_root_squash,no_subtree_check)
+    '';
+  };
+
   services.tailscale.enable = true;
 
   virtualisation.docker.rootless = {
