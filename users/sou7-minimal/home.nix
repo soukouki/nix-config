@@ -27,6 +27,7 @@
       a = "git add";
       c = "git commit";
       l1 = "git l1";
+      nix-update = "sudo nixos-rebuild switch --flake ~/nix-config";
     };
   };
 
