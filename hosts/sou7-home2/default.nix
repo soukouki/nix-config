@@ -166,12 +166,6 @@
     '';
   };
 
-  fileSystems."/home/sou7/proxy" = {
-    device = "100.64.168.58:/home/sou7";
-    fsType = "nfs";
-    options = [ "x-systemd.automount" "noauto" ];
-  };
-
   virtualisation.docker.rootless = {
     enable = true;
     setSocketVariable = true;
