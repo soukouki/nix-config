@@ -126,6 +126,7 @@
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
+    2049 # nfs
     13353 # simutrans
   ];
   # networking.firewall.allowedUDPPorts = [ ... ];
