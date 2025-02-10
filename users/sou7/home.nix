@@ -10,6 +10,8 @@
       xfce.xfce4-terminal
       fastfetch
       screen
+      zip
+      unzip
     ];
   };
 

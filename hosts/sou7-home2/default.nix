@@ -106,6 +106,11 @@
   };
   services.displayManager.defaultSession = "none+i3";
 
+  programs.nix-ld = {
+    enable = true;
+    libraries = pkgs.steam-run.args.multiPkgs pkgs;
+  };
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -150,6 +155,8 @@
     systemCronJobs = [
       "0 7 * * * sou7 openrgb -m rainbow"
       "0 21 * * * sou7 openrgb -m off"
+      "59 * * * * sou7 /home/sou7/nanasaba1st/autosave.sh"
+      "30 4 * * * sou7 /home/sou7/nanasaba1st/daily.sh"
     ];
   };
 
@@ -164,6 +171,8 @@
       /home/sou7 192.168.0.0/24(rw,sync,no_root_squash,no_subtree_check)
       /home/sou7 100.64.0.0/10(rw,sync,no_root_squash,no_subtree_check)
     '';
+    # 192.168.0.0/24 is the local network
+    # 100. 64.0.0/10 is the Tailscale network
   };
 
   virtualisation.docker.rootless = {

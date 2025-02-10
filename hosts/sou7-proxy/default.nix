@@ -114,11 +114,25 @@
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
+    2049 # NFS
     13353 # simutrans
   ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  fileSystems."/home/sou7" = {
+    device = "/home/sou7";
+    options = [ "bind" ];
+  };
+
+  services.nfs.server = {
+    enable = true;
+    exports = ''
+      /home/sou7 100.64.0.0/10(rw,sync,no_root_squash,no_subtree_check)
+    '';
+    # 100.64.0.0/10 is the Tailscale network
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
